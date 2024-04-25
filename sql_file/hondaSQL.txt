@@ -1,0 +1,29 @@
+-- Active: 1699670651119@@127.0.0.1@5432@honda_dealer_db@public
+CREATE TABLE honda (
+    id SERIAL PRIMARY KEY,
+    model VARCHAR(20),
+    colour VARCHAR(20),
+    listed_price DECIMAL
+);
+
+CREATE TABLE customer (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    email VARCHAR(255),
+    phone VARCHAR(15),
+    address VARCHAR(255)
+);
+
+CREATE TABLE honda_purchase (
+    customer_id INT,
+    honda_id INT,
+    on_the_road_price DECIMAL,
+    purchase_date DATE,
+    PRIMARY KEY (customer_id, honda_id),
+    FOREIGN KEY (customer_id) REFERENCES customer(id),
+    FOREIGN KEY (honda_id) REFERENCES honda(id)
+);
+
+DROP TABLE honda;
+DROP TABLE honda_purchase;
