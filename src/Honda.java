@@ -2,7 +2,6 @@ public class Honda {
     private int id;
     private String model;
     private String version;
-    private String colour;
     private double listedPrice;
 
     public double getListedPrice() {
@@ -35,13 +34,5 @@ public class Honda {
 
     public void setVersion(String version) {
         this.version = version;
-    }
-
-    public String getColour() {
-        return colour;
-    }
-
-    public void setColour(String colour) {
-        this.colour = colour;
     }
 }

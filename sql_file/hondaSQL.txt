@@ -2,7 +2,7 @@
 CREATE TABLE honda (
     id SERIAL PRIMARY KEY,
     model VARCHAR(20),
-    colour VARCHAR(20),
+    version VARCHAR(100),
     listed_price DECIMAL
 );
 
@@ -10,7 +10,7 @@ CREATE TABLE customer (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(100),
     last_name VARCHAR(100),
-    email VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
     phone VARCHAR(15),
     address VARCHAR(255)
 );
@@ -18,12 +18,10 @@ CREATE TABLE customer (
 CREATE TABLE honda_purchase (
     customer_id INT,
     honda_id INT,
+    purchase_location VARCHAR(255),
     on_the_road_price DECIMAL,
     purchase_date DATE,
     PRIMARY KEY (customer_id, honda_id),
     FOREIGN KEY (customer_id) REFERENCES customer(id),
     FOREIGN KEY (honda_id) REFERENCES honda(id)
 );
-
-DROP TABLE honda;
-DROP TABLE honda_purchase;
