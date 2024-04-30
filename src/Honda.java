@@ -35,4 +35,9 @@ public class Honda {
     public void setVersion(String version) {
         this.version = version;
     }
+
+    @Override
+    public String toString() {
+        return id + " - Honda " + model + " " + version + " - " + listedPrice + " dongs";
+    }
 }
