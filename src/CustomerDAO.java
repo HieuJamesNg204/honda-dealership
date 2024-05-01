@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerDAO {
-    private Connection connection;
+    private static Connection connection;
 
     public CustomerDAO() {
-        this.connection = DatabaseUtil.getConnection();
-        if (this.connection == null) {
+        connection = DatabaseUtil.getConnection();
+        if (connection == null) {
             throw new RuntimeException("Connection failed to initialise.");
         }
     }
 
-    public int addCustomer(Customer customer) {
+    public static int addCustomer(Customer customer) {
         String sql = "INSERT INTO customer (first_name, last_name, email, phone, address) " +
                 "VALUES (?, ?, ?, ?, ?);";
 
@@ -37,7 +37,7 @@ public class CustomerDAO {
         }
     }
 
-    public List<Customer> getAllCustomers() {
+    public static List<Customer> getAllCustomers() {
         List<Customer> customers = new ArrayList<>();
         String sql = "SELECT * FROM customer;";
 
@@ -67,7 +67,7 @@ public class CustomerDAO {
         }
     }
 
-    public Customer getCustomerById(int id) {
+    public static Customer getCustomerById(int id) {
         Customer customer = new Customer();
         String sql = "SELECT * FROM customer WHERE id=?;";
 
@@ -94,7 +94,7 @@ public class CustomerDAO {
         }
     }
 
-    public int updateCustomer(int id, String email, String phone, String address) {
+    public static int updateCustomer(int id, String email, String phone, String address) {
         String sql = "UPDATE customer SET email=?, phone=?, address=? WHERE id=?;";
 
         try {
@@ -114,7 +114,7 @@ public class CustomerDAO {
         }
     }
 
-    public int deleteCustomer(int id) {
+    public static int deleteCustomer(int id) {
         String sql = "DELETE FROM customer WHERE id=?;";
 
         try {

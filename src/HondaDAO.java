@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HondaDAO {
-    private Connection connection;
+    private static Connection connection;
 
     public HondaDAO() {
-        this.connection = DatabaseUtil.getConnection();
-        if (this.connection == null) {
+        connection = DatabaseUtil.getConnection();
+        if (connection == null) {
             throw new RuntimeException("Connection failed to initialise.");
         }
     }
 
-    public int addHonda(Honda honda) {
+    public static int addHonda(Honda honda) {
         String sql = "INSERT INTO honda (model, version, listed_price) VALUES (?, ?, ?);";
 
         try {
@@ -34,7 +34,7 @@ public class HondaDAO {
         }
     }
 
-    public List<Honda> getAllHondas() {
+    public static List<Honda> getAllHondas() {
         List<Honda> hondas = new ArrayList<>();
         String sql = "SELECT * FROM honda;";
 
@@ -62,7 +62,7 @@ public class HondaDAO {
         }
     }
 
-    public List<Honda> getHondasByModel(String model) {
+    public static List<Honda> getHondasByModel(String model) {
         List<Honda> hondas = new ArrayList<>();
         String sql = "SELECT * FROM honda WHERE model=?;";
 
@@ -91,7 +91,7 @@ public class HondaDAO {
         }
     }
 
-    public List<Honda> getHondasByPriceRange(double min, double max) {
+    public static List<Honda> getHondasByPriceRange(double min, double max) {
         List<Honda> hondas = new ArrayList<>();
         String sql = "SELECT * FROM honda WHERE listed_price BETWEEN ? AND ?;";
 
@@ -121,7 +121,7 @@ public class HondaDAO {
         }
     }
 
-    public Honda getHondaById(int id) {
+    public static Honda getHondaById(int id) {
         Honda honda = new Honda();
         String sql = "SELECT * FROM honda WHERE id=?;";
 
@@ -146,7 +146,7 @@ public class HondaDAO {
         }
     }
 
-    public List<String> getModelList() {
+    public static List<String> getModelList() {
         List<String> models = new ArrayList<>();
         String sql = "SELECT DISTINCT model FROM honda;";
 
@@ -167,7 +167,7 @@ public class HondaDAO {
         }
     }
 
-    public int updateHonda(String model, String version, double listedPrice) {
+    public static int updateHonda(String model, String version, double listedPrice) {
         String sql = "UPDATE honda SET listed_price=? WHERE model=? AND version=?;";
 
         try {
@@ -186,7 +186,7 @@ public class HondaDAO {
         }
     }
 
-    public int deleteHonda(String model, String version) {
+    public static int deleteHonda(String model, String version) {
         String sql = "DELETE FROM honda WHERE model=? AND version=?;";
 
         try {
