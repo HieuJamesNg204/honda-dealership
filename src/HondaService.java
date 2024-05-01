@@ -4,19 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HondaService {
-    private Connection connection;
+    private static Connection connection = DatabaseUtil.getConnection();
 
-    public HondaService() {
-        this.connection = DatabaseUtil.getConnection();
-        if (this.connection == null) {
-            throw new RuntimeException("Connection failed to initialise.");
-        }
-    }
-
-    public int recordPurchase(int customerId,
+    public static int recordPurchase(int customerId,
                               int hondaId,
                               String purchaseLocation,
-                              double onTheRoadPrice,
+                              long onTheRoadPrice,
                               LocalDate purchaseDate) {
         String sql = "INSERT INTO honda_purchase (" +
                 "customer_id, " +
@@ -32,7 +25,7 @@ public class HondaService {
             preparedStatement.setInt(1, customerId);
             preparedStatement.setInt(2, hondaId);
             preparedStatement.setString(3, purchaseLocation);
-            preparedStatement.setDouble(4, onTheRoadPrice);
+            preparedStatement.setLong(4, onTheRoadPrice);
             preparedStatement.setDate(5, Date.valueOf(purchaseDate));
 
             int added = preparedStatement.executeUpdate();
@@ -44,7 +37,7 @@ public class HondaService {
         }
     }
 
-    public List<String> getAllPurchaseRecords() {
+    public static List<String> getAllPurchaseRecords() {
         List<String> records = new ArrayList<>();
         String sql = "SELECT " +
                 "customer.id AS customerId," +
@@ -68,18 +61,18 @@ public class HondaService {
 
             while (resultSet.next()) {
                 String record = "Honda Purchase {\n" +
-                                " - Customer ID: " + resultSet.getInt("customerId") + ",\n" +
-                                " - Full name: " + resultSet.getString("first_name") + " " +
+                                "\t - Customer ID: " + resultSet.getInt("customerId") + ",\n" +
+                                "\t - Full name: " + resultSet.getString("first_name") + " " +
                                     resultSet.getString("last_name") + ",\n" +
-                                " - Email: " + resultSet.getString("email") + ",\n" +
-                                " - Phone: "  + resultSet.getString("phone") + ",\n" +
-                                " - Address: " + resultSet.getString("address") + ",\n" +
-                                " - Car purchase: Honda " + resultSet.getString("model") + " " +
+                                "\t - Email: " + resultSet.getString("email") + ",\n" +
+                                "\t - Phone: "  + resultSet.getString("phone") + ",\n" +
+                                "\t - Address: " + resultSet.getString("address") + ",\n" +
+                                "\t - Car purchase: Honda " + resultSet.getString("model") + " " +
                                     resultSet.getString("version") + ",\n" +
-                                " - Location: " + resultSet.getString("purchase_location") + ",\n" +
-                                " - Total on-the-road price: " + resultSet.getDouble("on_the_road_price") +
+                                "\t - Location: " + resultSet.getString("purchase_location") + ",\n" +
+                                "\t - Total on-the-road price: " + resultSet.getLong("on_the_road_price") +
                                     ",\n" +
-                                " - Purchase date: " + resultSet.getDate("purchase_date") + "\n" +
+                                "\t - Purchase date: " + resultSet.getDate("purchase_date") + "\n" +
                                 "}";
                 records.add(record);
             }
@@ -89,11 +82,11 @@ public class HondaService {
             return records;
         } catch (SQLException e) {
             System.out.println("Error: " + e);
-            return null;
+            return new ArrayList<>();
         }
     }
 
-    public List<String> getRecordsByCustomerId(int customerId) {
+    public static List<String> getRecordsByCustomerId(int customerId) {
         List<String> records = new ArrayList<>();
         String sql = "SELECT " +
                 "customer.id AS customerId," +
@@ -119,18 +112,18 @@ public class HondaService {
 
             while (resultSet.next()) {
                 String record = "Honda Purchase {\n" +
-                        " - Customer ID: " + customerId + ",\n" +
-                        " - Full name: " + resultSet.getString("first_name") + " " +
+                        "\t - Customer ID: " + customerId + ",\n" +
+                        "\t - Full name: " + resultSet.getString("first_name") + " " +
                             resultSet.getString("last_name") + ",\n" +
-                        " - Email: " + resultSet.getString("email") + ",\n" +
-                        " - Phone: " + resultSet.getString("phone") + ",\n" +
-                        " - Address: " + resultSet.getString("address") + ",\n" +
-                        " - Car purchase: Honda " + resultSet.getString("model") + " " +
-                        resultSet.getString("version") + ",\n" +
-                        " - Location: " + resultSet.getString("purchase_location") + ",\n" +
-                        " - Total on-the-road price: " + resultSet.getDouble("on_the_road_price") +
+                        "\t - Email: " + resultSet.getString("email") + ",\n" +
+                        "\t - Phone: " + resultSet.getString("phone") + ",\n" +
+                        "\t - Address: " + resultSet.getString("address") + ",\n" +
+                        "\t - Car purchase: Honda " + resultSet.getString("model") + " " +
+                            resultSet.getString("version") + ",\n" +
+                        "\t - Location: " + resultSet.getString("purchase_location") + ",\n" +
+                        "\t - Total on-the-road price: " + resultSet.getLong("on_the_road_price") +
                         ",\n" +
-                        " - Purchase date: " + resultSet.getDate("purchase_date") + "\n" +
+                        "\t - Purchase date: " + resultSet.getDate("purchase_date") + "\n" +
                         "}";
                 records.add(record);
             }
@@ -140,7 +133,7 @@ public class HondaService {
             return records;
         } catch (SQLException e) {
             System.out.println("Error: " + e);
-            return null;
+            return new ArrayList<>();
         }
     }
 }

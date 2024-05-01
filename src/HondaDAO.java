@@ -1,19 +1,11 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HondaDAO {
-    private static Connection connection;
-
-    public HondaDAO() {
-        connection = DatabaseUtil.getConnection();
-        if (connection == null) {
-            throw new RuntimeException("Connection failed to initialise.");
-        }
-    }
+    private static Connection connection = DatabaseUtil.getConnection();
 
     public static int addHonda(Honda honda) {
         String sql = "INSERT INTO honda (model, version, listed_price) VALUES (?, ?, ?);";
@@ -28,7 +20,7 @@ public class HondaDAO {
             int added = preparedStatement.executeUpdate();
             preparedStatement.close();
             return added;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Error: " + e);
             return 0;
         }
@@ -48,7 +40,7 @@ public class HondaDAO {
                 honda.setId(resultSet.getInt("id"));
                 honda.setModel(resultSet.getString("model"));
                 honda.setVersion(resultSet.getString("version"));
-                honda.setListedPrice(resultSet.getDouble("listed_price"));
+                honda.setListedPrice(resultSet.getLong("listed_price"));
 
                 hondas.add(honda);
             }
@@ -56,7 +48,7 @@ public class HondaDAO {
             resultSet.close();
             preparedStatement.close();
             return hondas;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Error: " + e);
             return new ArrayList<>();
         }
@@ -77,7 +69,7 @@ public class HondaDAO {
                 honda.setId(resultSet.getInt("id"));
                 honda.setModel(model);
                 honda.setVersion(resultSet.getString("version"));
-                honda.setListedPrice(resultSet.getDouble("listed_price"));
+                honda.setListedPrice(resultSet.getLong("listed_price"));
 
                 hondas.add(honda);
             }
@@ -85,13 +77,13 @@ public class HondaDAO {
             resultSet.close();
             preparedStatement.close();
             return hondas;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Error: " + e);
             return new ArrayList<>();
         }
     }
 
-    public static List<Honda> getHondasByPriceRange(double min, double max) {
+    public static List<Honda> getHondasByPriceRange(long min, long max) {
         List<Honda> hondas = new ArrayList<>();
         String sql = "SELECT * FROM honda WHERE listed_price BETWEEN ? AND ?;";
 
@@ -107,7 +99,7 @@ public class HondaDAO {
                 honda.setId(resultSet.getInt("id"));
                 honda.setModel(resultSet.getString("model"));
                 honda.setVersion(resultSet.getString("version"));
-                honda.setListedPrice(resultSet.getDouble("listed_price"));
+                honda.setListedPrice(resultSet.getLong("listed_price"));
 
                 hondas.add(honda);
             }
@@ -115,7 +107,7 @@ public class HondaDAO {
             resultSet.close();
             preparedStatement.close();
             return hondas;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Error: " + e);
             return new ArrayList<>();
         }
@@ -134,12 +126,12 @@ public class HondaDAO {
                 honda.setId(id);
                 honda.setModel(resultSet.getString("model"));
                 honda.setVersion(resultSet.getString("version"));
-                honda.setListedPrice(resultSet.getDouble("listed_price"));
+                honda.setListedPrice(resultSet.getLong("listed_price"));
             }
 
             resultSet.close();
             preparedStatement.close();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Error: " + e);
         }
 
@@ -161,13 +153,13 @@ public class HondaDAO {
             resultSet.close();
             preparedStatement.close();
             return models;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Error: " + e);
             return new ArrayList<>();
         }
     }
 
-    public static int updateHonda(String model, String version, double listedPrice) {
+    public static int updateHonda(String model, String version, long listedPrice) {
         String sql = "UPDATE honda SET listed_price=? WHERE model=? AND version=?;";
 
         try {
@@ -180,7 +172,7 @@ public class HondaDAO {
             int updated = preparedStatement.executeUpdate();
             preparedStatement.close();
             return updated;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Error: " + e);
             return 0;
         }
@@ -198,7 +190,7 @@ public class HondaDAO {
             int updated = preparedStatement.executeUpdate();
             preparedStatement.close();
             return updated;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("Error: " + e);
             return 0;
         }

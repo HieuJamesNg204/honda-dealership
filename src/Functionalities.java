@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -17,17 +18,17 @@ public class Functionalities {
         System.out.println("9. Register a customer");
         System.out.println("10. List all customers");
         System.out.println("11. Get a customer by ID");
-        System.out.println("12. Update customer");
-        System.out.println("13. Delete user");
+        System.out.println("12. Update a customer");
+        System.out.println("13. Delete a customer");
         System.out.println("14. Add a purchase");
-        System.out.println("15. Get all purchases");
-        System.out.println("16. Get purchases by customer id");
+        System.out.println("15. List all purchases");
+        System.out.println("16. List purchases by customer id");
         System.out.println("0. Quit");
 
         int choice;
         while (true) {
             try {
-                System.out.println("Your choice: ");
+                System.out.print("Your choice: ");
                 choice = scanner.nextInt();
                 break;
             } catch (InputMismatchException e) {
@@ -43,16 +44,16 @@ public class Functionalities {
     public static void addANewHonda() {
         Honda honda = new Honda();
 
-        System.out.print("Model and version: Honda ");
-        String[] modelVersion = scanner.nextLine().split("\\s+");
-        honda.setModel(modelVersion[0]);
-        honda.setVersion(modelVersion[1]);
+        System.out.print("Model: ");
+        String model = scanner.nextLine();
+        System.out.print("Version: ");
+        String version = scanner.nextLine();
 
-        double listedPrice;
+        long listedPrice;
         while (true) {
             try {
                 System.out.print("Listed price: ");
-                listedPrice = scanner.nextDouble();
+                listedPrice = scanner.nextLong();
 
                 if (listedPrice <= 0) {
                     System.out.println("Error: Listed price was not positive.");
@@ -66,6 +67,8 @@ public class Functionalities {
         }
         scanner.nextLine();
 
+        honda.setModel(model);
+        honda.setVersion(version);
         honda.setListedPrice(listedPrice);
 
         int added = HondaDAO.addHonda(honda);
@@ -75,11 +78,14 @@ public class Functionalities {
         } else {
             System.out.println("Failed to add the Honda car");
         }
+
+        scanner.nextLine();
     }
 
     public static void listAllHondaCars() {
         List<Honda> hondaList = HondaDAO.getAllHondas();
         hondaList.forEach(System.out::println);
+        scanner.nextLine();
     }
 
     public static void listHondaCarsByModel() {
@@ -88,19 +94,21 @@ public class Functionalities {
 
         List<Honda> hondaList = HondaDAO.getHondasByModel(model);
         hondaList.forEach(System.out::println);
+
+        scanner.nextLine();
     }
 
     public static void listHondaCarsByPriceRange() {
-        double minPrice, maxPrice;
+        long minPrice, maxPrice;
         while (true) {
             try {
                 System.out.print("Price from: ");
-                minPrice = scanner.nextDouble();
+                minPrice = scanner.nextLong();
                 System.out.print("Price to: ");
-                maxPrice = scanner.nextDouble();
+                maxPrice = scanner.nextLong();
 
                 if (minPrice > maxPrice) {
-                    double temp = minPrice;
+                    long temp = minPrice;
                     minPrice = maxPrice;
                     maxPrice = temp;
                 }
@@ -115,6 +123,8 @@ public class Functionalities {
 
         List<Honda> hondaList = HondaDAO.getHondasByPriceRange(minPrice, maxPrice);
         hondaList.forEach(System.out::println);
+
+        scanner.nextLine();
     }
 
     public static void getAHondaCarById() {
@@ -138,24 +148,27 @@ public class Functionalities {
 
         Honda honda = HondaDAO.getHondaById(hondaId);
         System.out.println(honda);
+
+        scanner.nextLine();
     }
 
     public static void listHondaModels() {
         List<String> modelList = HondaDAO.getModelList();
         modelList.forEach(System.out::println);
+        scanner.nextLine();
     }
 
     public static void updateAHondaCar() {
-        System.out.print("Model and version: Honda ");
-        String[] modelVersion = scanner.nextLine().split("\\s+");
-        String model = modelVersion[0];
-        String version = modelVersion[1];
+        System.out.print("Model: ");
+        String model = scanner.nextLine();
+        System.out.print("Version: ");
+        String version = scanner.nextLine();
 
-        double newListedPrice;
+        long newListedPrice;
         while (true) {
             try {
                 System.out.print("New listed price: ");
-                newListedPrice = scanner.nextDouble();
+                newListedPrice = scanner.nextLong();
 
                 if (newListedPrice <= 0) {
                     System.out.println("Error: Input was not positive.");
@@ -176,13 +189,15 @@ public class Functionalities {
         } else {
             System.out.println("Failed to update the Honda car");
         }
+
+        scanner.nextLine();
     }
 
     public static void deleteAHondaCar() {
-        System.out.print("Model and version: Honda ");
-        String[] modelVersion = scanner.nextLine().split("\\s+");
-        String model = modelVersion[0];
-        String version = modelVersion[1];
+        System.out.print("Model: ");
+        String model = scanner.nextLine();
+        System.out.print("Version: ");
+        String version = scanner.nextLine();
 
         int deleted = HondaDAO.deleteHonda(model, version);
         if (deleted != 0) {
@@ -190,6 +205,8 @@ public class Functionalities {
         } else {
             System.out.println("Failed to delete the Honda car");
         }
+
+        scanner.nextLine();
     }
 
     public static void registerACustomer() {
@@ -212,11 +229,14 @@ public class Functionalities {
         } else {
             System.out.println("Fail to register the customer");
         }
+
+        scanner.nextLine();
     }
 
     public static void listAllCustomers() {
         List<Customer> customerList = CustomerDAO.getAllCustomers();
         customerList.forEach(System.out::println);
+        scanner.nextLine();
     }
 
     public static void getACustomerById() {
@@ -238,6 +258,164 @@ public class Functionalities {
             }
         }
 
-        //
+        Customer customer = CustomerDAO.getCustomerById(customerId);
+        System.out.println(customer);
+
+        scanner.nextLine();
+    }
+
+    public static void updateACustomer() {
+        int customerId;
+        while (true) {
+            try {
+                System.out.print("Customer ID: ");
+                customerId = scanner.nextInt();
+
+                if (customerId <= 0) {
+                    System.out.print("Error: The ID was not positive.");
+                    continue;
+                }
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Input was not a valid integer.");
+                scanner.next();
+            }
+        }
+
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        System.out.print("Phone: ");
+        String phone = scanner.nextLine();
+        System.out.println("Address: ");
+        String address = scanner.nextLine();
+
+        int updated = CustomerDAO.updateCustomer(customerId, email, phone, address);
+        if (updated != 0) {
+            System.out.println("Successfully updated the customer");
+        } else {
+            System.out.println("Failed to update the customer");
+        }
+
+        scanner.nextLine();
+    }
+
+    public static void deleteACustomer() {
+        int customerId;
+        while (true) {
+            try {
+                System.out.print("Customer ID: ");
+                customerId = scanner.nextInt();
+
+                if (customerId <= 0) {
+                    System.out.print("Error: The ID was not positive.");
+                    continue;
+                }
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Input was not a valid integer.");
+                scanner.next();
+            }
+        }
+
+        int deleted = CustomerDAO.deleteCustomer(customerId);
+        if (deleted != 0) {
+            System.out.println("Successfully deleted the customer");
+        } else {
+            System.out.println("Failed to delete the customer");
+        }
+
+        scanner.nextLine();
+    }
+
+    public static void addAPurchase() {
+        int customerId;
+        int hondaId;
+        while (true) {
+            try {
+                System.out.print("Customer ID: ");
+                customerId = scanner.nextInt();
+                System.out.print("Honda ID: ");
+                hondaId = scanner.nextInt();
+
+                if (customerId <= 0 || hondaId <= 0) {
+                    System.out.print("Error: The ID was not positive.");
+                    continue;
+                }
+
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Input was not a valid integer.");
+                scanner.next();
+            }
+        }
+
+        System.out.print("Purchase location: ");
+        String purchaseLocation = scanner.nextLine();
+
+        long onTheRoadPrice;
+        while (true) {
+            try {
+                System.out.print("On-the-road price: ");
+                onTheRoadPrice = scanner.nextLong();
+
+                if (onTheRoadPrice <= 0) {
+                    System.out.println("Error: Input was not positive.");
+                    continue;
+                }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Input was not a valid decimal number.");
+                scanner.next();
+            }
+        }
+
+        int recorded = HondaService.recordPurchase(
+                customerId,
+                hondaId,
+                purchaseLocation,
+                onTheRoadPrice,
+                LocalDate.now()
+        );
+
+        if (recorded != 0) {
+            System.out.println("Successfully added the record");
+        } else {
+            System.out.println("Failed to add the record");
+        }
+
+        scanner.nextLine();
+    }
+
+    public static void listAllPurchases() {
+        List<String> purchaseList = HondaService.getAllPurchaseRecords();
+        purchaseList.forEach(System.out::println);
+        scanner.nextLine();
+    }
+
+    public static void listPurchasesByCustomerId() {
+        int customerId;
+        while (true) {
+            try {
+                System.out.print("Customer ID: ");
+                customerId = scanner.nextInt();
+
+                if (customerId <= 0) {
+                    System.out.print("Error: The ID was not positive.");
+                    continue;
+                }
+                scanner.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Input was not a valid integer.");
+                scanner.next();
+            }
+        }
+
+        List<String> purchaseList = HondaService.getRecordsByCustomerId(customerId);
+        purchaseList.forEach(System.out::println);
+        scanner.nextLine();
     }
 }

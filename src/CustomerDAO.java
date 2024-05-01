@@ -6,14 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerDAO {
-    private static Connection connection;
-
-    public CustomerDAO() {
-        connection = DatabaseUtil.getConnection();
-        if (connection == null) {
-            throw new RuntimeException("Connection failed to initialise.");
-        }
-    }
+    private static Connection connection = DatabaseUtil.getConnection();
 
     public static int addCustomer(Customer customer) {
         String sql = "INSERT INTO customer (first_name, last_name, email, phone, address) " +

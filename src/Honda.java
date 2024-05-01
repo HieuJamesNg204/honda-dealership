@@ -2,13 +2,13 @@ public class Honda {
     private int id;
     private String model;
     private String version;
-    private double listedPrice;
+    private long listedPrice;
 
-    public double getListedPrice() {
+    public long getListedPrice() {
         return listedPrice;
     }
 
-    public void setListedPrice(double listedPrice) {
+    public void setListedPrice(long listedPrice) {
         this.listedPrice = listedPrice;
     }
 
