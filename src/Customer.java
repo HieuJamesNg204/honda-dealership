@@ -6,10 +6,6 @@ public class Customer {
     private String phone;
     private String address;
 
-    public int getId() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
