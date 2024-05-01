@@ -58,7 +58,7 @@ public class HondaDAO {
             return hondas;
         } catch (SQLException e) {
             System.out.println("Error: " + e);
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -87,7 +87,7 @@ public class HondaDAO {
             return hondas;
         } catch (SQLException e) {
             System.out.println("Error: " + e);
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -117,7 +117,7 @@ public class HondaDAO {
             return hondas;
         } catch (SQLException e) {
             System.out.println("Error: " + e);
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -139,11 +139,11 @@ public class HondaDAO {
 
             resultSet.close();
             preparedStatement.close();
-            return honda;
         } catch (SQLException e) {
             System.out.println("Error: " + e);
-            return null;
         }
+
+        return honda;
     }
 
     public static List<String> getModelList() {
@@ -163,7 +163,7 @@ public class HondaDAO {
             return models;
         } catch (SQLException e) {
             System.out.println("Error: " + e);
-            return null;
+            return new ArrayList<>();
         }
     }
 

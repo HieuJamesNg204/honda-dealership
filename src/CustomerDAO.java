@@ -63,7 +63,7 @@ public class CustomerDAO {
             return customers;
         } catch (SQLException e) {
             System.out.println("Error: " + e);
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -87,11 +87,11 @@ public class CustomerDAO {
 
             resultSet.close();
             preparedStatement.close();
-            return customer;
         } catch (SQLException e) {
             System.out.println("Error: " + e);
-            return null;
         }
+
+        return customer;
     }
 
     public static int updateCustomer(int id, String email, String phone, String address) {
