@@ -28,7 +28,7 @@ public class HondaDAO {
 
     public static List<Honda> getAllHondas() {
         List<Honda> hondas = new ArrayList<>();
-        String sql = "SELECT * FROM honda;";
+        String sql = "SELECT * FROM honda ORDER BY listed_price;";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -56,7 +56,7 @@ public class HondaDAO {
 
     public static List<Honda> getHondasByModel(String model) {
         List<Honda> hondas = new ArrayList<>();
-        String sql = "SELECT * FROM honda WHERE model=?;";
+        String sql = "SELECT * FROM honda WHERE model=? ORDER BY listed_price;";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -85,7 +85,7 @@ public class HondaDAO {
 
     public static List<Honda> getHondasByPriceRange(long min, long max) {
         List<Honda> hondas = new ArrayList<>();
-        String sql = "SELECT * FROM honda WHERE listed_price BETWEEN ? AND ?;";
+        String sql = "SELECT * FROM honda WHERE listed_price BETWEEN ? AND ? ORDER BY listed_price;";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);

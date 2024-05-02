@@ -51,8 +51,8 @@ public class HondaService {
                 "honda_purchase.purchase_location, " +
                 "honda_purchase.on_the_road_price, " +
                 "honda_purchase.purchase_date " +
-                "FROM honda_purchase" +
-                "INNER JOIN honda ON honda_purchase.honda_id=honda.id" +
+                "FROM honda_purchase " +
+                "INNER JOIN honda ON honda_purchase.honda_id=honda.id " +
                 "INNER JOIN customer ON honda_purchase.customer_id=customer.id;";
 
         try {
@@ -60,20 +60,16 @@ public class HondaService {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                String record = "Honda Purchase {\n" +
-                                "\t - Customer ID: " + resultSet.getInt("customerId") + ",\n" +
-                                "\t - Full name: " + resultSet.getString("first_name") + " " +
-                                    resultSet.getString("last_name") + ",\n" +
-                                "\t - Email: " + resultSet.getString("email") + ",\n" +
-                                "\t - Phone: "  + resultSet.getString("phone") + ",\n" +
-                                "\t - Address: " + resultSet.getString("address") + ",\n" +
-                                "\t - Car purchase: Honda " + resultSet.getString("model") + " " +
-                                    resultSet.getString("version") + ",\n" +
-                                "\t - Location: " + resultSet.getString("purchase_location") + ",\n" +
-                                "\t - Total on-the-road price: " + resultSet.getLong("on_the_road_price") +
-                                    ",\n" +
-                                "\t - Purchase date: " + resultSet.getDate("purchase_date") + "\n" +
-                                "}";
+                String record = "Customer ID " + resultSet.getInt("customerId") + " - "
+                        + resultSet.getString("first_name") + " "
+                        + resultSet.getString("last_name") + " - " + resultSet.getString("email")
+                        + " - " + resultSet.getString("phone") + " - "
+                        + resultSet.getString("address") + ": Honda "
+                        + resultSet.getString("model") + " " + resultSet.getString("version")
+                        + " purchased in " + resultSet.getString("purchase_location") + " on "
+                        + resultSet.getDate("purchase_date") + " - totally "
+                        + resultSet.getLong("on_the_road_price") + " dongs on the road";
+
                 records.add(record);
             }
 
@@ -100,9 +96,9 @@ public class HondaService {
                 "honda_purchase.purchase_location, " +
                 "honda_purchase.on_the_road_price, " +
                 "honda_purchase.purchase_date " +
-                "FROM honda_purchase" +
-                "INNER JOIN honda ON honda_purchase.honda_id=honda.id" +
-                "INNER JOIN customer ON honda_purchase.customer_id=customer.id" +
+                "FROM honda_purchase " +
+                "INNER JOIN honda ON honda_purchase.honda_id=honda.id " +
+                "INNER JOIN customer ON honda_purchase.customer_id=customer.id " +
                 "WHERE customer.id=?;";
 
         try {
@@ -111,20 +107,15 @@ public class HondaService {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                String record = "Honda Purchase {\n" +
-                        "\t - Customer ID: " + customerId + ",\n" +
-                        "\t - Full name: " + resultSet.getString("first_name") + " " +
-                            resultSet.getString("last_name") + ",\n" +
-                        "\t - Email: " + resultSet.getString("email") + ",\n" +
-                        "\t - Phone: " + resultSet.getString("phone") + ",\n" +
-                        "\t - Address: " + resultSet.getString("address") + ",\n" +
-                        "\t - Car purchase: Honda " + resultSet.getString("model") + " " +
-                            resultSet.getString("version") + ",\n" +
-                        "\t - Location: " + resultSet.getString("purchase_location") + ",\n" +
-                        "\t - Total on-the-road price: " + resultSet.getLong("on_the_road_price") +
-                        ",\n" +
-                        "\t - Purchase date: " + resultSet.getDate("purchase_date") + "\n" +
-                        "}";
+                String record = "Customer ID " + resultSet.getInt("customerId") + " - "
+                        + resultSet.getString("first_name") + " "
+                        + resultSet.getString("last_name") + " - " + resultSet.getString("email")
+                        + " - " + resultSet.getString("phone") + " - "
+                        + resultSet.getString("address") + ": Honda "
+                        + resultSet.getString("model") + " " + resultSet.getString("version")
+                        + " purchased in " + resultSet.getString("purchase_location") + " on "
+                        + resultSet.getDate("purchase_date") + " - totally "
+                        + resultSet.getLong("on_the_road_price") + " dongs on the road";
                 records.add(record);
             }
 
